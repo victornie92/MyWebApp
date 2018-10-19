@@ -1,4 +1,12 @@
-﻿@inherits UmbracoViewPage
+﻿@using Umbraco.Web.Models
+@inherits UmbracoViewPage
+
+@{
+
+    IEnumerable<RelatedLink> homeLink = Umbraco.AssignedContentItem.GetPropertyValue<IEnumerable<RelatedLink>>("homeLink");
+    IEnumerable<RelatedLink> aboutLink = Umbraco.AssignedContentItem.GetPropertyValue<IEnumerable<RelatedLink>>("aboutLink");
+}
+
 <!-- Navigation -->
 <nav class="navbar navbar-default" role="navigation">
     <div class="container">
@@ -17,10 +25,10 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a href="">Home</a>
+                    <a href="#">Home</a>
                 </li>
                 <li>
-                    <a href="../about">About</a>
+                    <a href="#">About</a>
                 </li>
                 <li>
                     <a href="~/Views/Partials/Content/_Blog.cshtml">Blog</a>
