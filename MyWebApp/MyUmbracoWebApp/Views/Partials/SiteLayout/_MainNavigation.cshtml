@@ -3,8 +3,9 @@
 
 @{
 
-    IEnumerable<RelatedLink> homeLink = Umbraco.AssignedContentItem.GetPropertyValue<IEnumerable<RelatedLink>>("homeLink");
-    IEnumerable<RelatedLink> aboutLink = Umbraco.AssignedContentItem.GetPropertyValue<IEnumerable<RelatedLink>>("aboutLink");
+    IPublishedContent homePage = Umbraco.AssignedContentItem.AncestorOrSelf("home");
+    IEnumerable<IPublishedContent> navigationPages = homePage.Children(x => x.IsVisible());
+
 }
 
 <!-- Navigation -->
@@ -24,18 +25,20 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
+                
                 <li>
-                    <a href="#">Home</a>
+                    <a href="/">Home</a>
                 </li>
-                <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="~/Views/Partials/Content/_Blog.cshtml">Blog</a>
-                </li>
-                <li>
-                    <a href="~/Views/Partials/Content/_Contact.cshtml">Contact</a>
-                </li>
+
+                @if (navigationPages != null && navigationPages.Any())
+                {
+                    foreach (var publishedContent in navigationPages)
+                    {
+                        <li>
+                            <a href="@publishedContent.Url">@publishedContent.Name</a>
+                        </li>
+                    }
+                }
             </ul>
         </div>
         <!-- /.navbar-collapse -->
